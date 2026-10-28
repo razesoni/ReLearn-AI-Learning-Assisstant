@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block auth_mode %}guest{% endblock %}
+{% block body %}
+<div class="auth">
+  <aside class="auth-aside">
+    <a class="brand" href="/"><span class="logo-mark"></span>Margin</a>
+    <blockquote>Everything you need to <span class="hl">revise</span> was already in the lecture. It just needed <span class="hl">sorting</span>.</blockquote>
+    <small>Summaries, key terms and practice problems from your own material.</small>
+  </aside>
+  <div class="auth-main">
+    <a class="btn quiet small auth-back" href="/">Back to home</a>
+    <section class="auth-card">
+      {% block auth_card %}{% endblock %}
+    </section>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='js/auth.js') }}"></script>{% endblock %}

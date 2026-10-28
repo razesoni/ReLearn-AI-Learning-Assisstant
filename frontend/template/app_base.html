@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block auth_mode %}public{% endblock %}
+{% block body %}
+<div class="shell">
+  <aside class="side" id="side" aria-label="Main">
+    <a class="brand" href="/dashboard"><span class="logo-mark"></span>Margin</a>
+
+    <nav class="side-nav" aria-label="Primary">
+      <a class="nav-link" href="/dashboard">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="9" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="3.5" width="7" height="5" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="13.5" y="11.5" width="7" height="9" rx="1.6" stroke="currentColor" stroke-width="1.7"/><rect x="3.5" y="15.5" width="7" height="5" rx="1.6" stroke="currentColor" stroke-width="1.7"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-link" href="/library">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4.5h4v15H5zM10.5 4.5h4v15h-4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="m16.5 6.2 3.6-.9 3 13.2-3.6.9z" transform="translate(-2.3 .2)" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        My library
+      </a>
+    </nav>
+
+    <a class="btn primary nav-cta" href="/new">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+      New study set
+    </a>
+
+    <div class="side-foot">
+      <button class="btn quiet small" type="button" data-theme-toggle>Switch light / dark</button>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="main">
+    <header class="mobile-bar">
+      <button class="icon-btn" id="menuToggle" type="button" aria-label="Open menu" aria-controls="side" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </button>
+      <a class="brand" href="/dashboard"><span class="logo-mark"></span>Margin</a>
+    </header>
+    <main class="page" id="main">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</div>
+{% endblock %}

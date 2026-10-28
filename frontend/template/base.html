@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Margin — turn anything into a study set{% endblock %}</title>
+  <meta name="description" content="Upload a lecture video, a PDF or a YouTube link and get a summary, key points, key terms and practice problems.">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('margin-theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    })();
+  </script>
+  {% block guard %}{% endblock %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}" data-auth="{% block auth_mode %}public{% endblock %}">
+  {% block body %}{% endblock %}
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+  <script src="{{ url_for('static', path='js/demo.js') }}"></script>
+  <script src="{{ url_for('static', path='js/core.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

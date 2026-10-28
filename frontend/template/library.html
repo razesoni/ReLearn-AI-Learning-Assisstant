@@ -1,0 +1,43 @@
+{% extends "app_base.html" %}
+{% block title %}My library — Margin{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1 class="page-title">My library</h1>
+    <p class="page-sub">Every study set you have made, in one place.</p>
+  </div>
+  <a class="btn primary" href="/new">New study set</a>
+</div>
+
+<div class="toolbar">
+  <div class="grow">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.7"/><path d="m20 20-4.8-4.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    <input class="input" id="q" type="search" placeholder="Search by title" aria-label="Search study sets">
+  </div>
+  <div class="seg" role="group" aria-label="Filter by source">
+    <button type="button" data-kind="all" aria-pressed="true">All</button>
+    <button type="button" data-kind="video" aria-pressed="false">Video</button>
+    <button type="button" data-kind="pdf" aria-pressed="false">PDF</button>
+    <button type="button" data-kind="youtube" aria-pressed="false">YouTube</button>
+  </div>
+  <select class="select" id="sort" aria-label="Sort study sets">
+    <option value="new">Newest first</option>
+    <option value="old">Oldest first</option>
+    <option value="title">Title A–Z</option>
+    <option value="score">Best score</option>
+  </select>
+</div>
+
+<div class="rows" id="rows" aria-live="polite"><div class="skeleton"></div><div class="skeleton"></div></div>
+<div class="empty" id="empty" hidden></div>
+
+<dialog id="confirm">
+  <h2>Delete this study set?</h2>
+  <p id="confirmText">The summary, terms, quiz and your scores will be removed. This cannot be undone.</p>
+  <div class="actions">
+    <button class="btn" type="button" id="cancelDelete">Keep it</button>
+    <button class="btn primary" type="button" id="doDelete" style="background:var(--bad);border-color:var(--bad);color:#fff">Delete</button>
+  </div>
+</dialog>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='js/library.js') }}"></script>{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "auth_base.html" %}
+{% block title %}Create account — Margin{% endblock %}
+{% block auth_card %}
+<h1>Create your account</h1>
+<p class="sub">Save your study sets and quiz scores in one place.</p>
+<form id="authForm" data-mode="signup" novalidate>
+  <div class="form-error" id="formError" role="alert" hidden></div>
+  <div class="field">
+    <label for="name">Name</label>
+    <input class="input" id="name" name="name" type="text" autocomplete="name" required>
+    <span class="field-error" data-error-for="name"></span>
+  </div>
+  <div class="field">
+    <label for="email">Email</label>
+    <input class="input" id="email" name="email" type="email" autocomplete="email" required>
+    <span class="field-error" data-error-for="email"></span>
+  </div>
+  <div class="field">
+    <label for="password">Password</label>
+    <div class="input-wrap">
+      <input class="input" id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+      <button class="reveal" type="button" data-reveal="password" aria-label="Show password">Show</button>
+    </div>
+    <span class="hint">At least 8 characters.</span>
+    <span class="field-error" data-error-for="password"></span>
+  </div>
+  <button class="btn primary large full" type="submit" id="submitBtn">Create account</button>
+</form>
+<p class="auth-switch">Already have an account? <a href="/login" data-keep-next>Log in</a></p>
+{% endblock %}

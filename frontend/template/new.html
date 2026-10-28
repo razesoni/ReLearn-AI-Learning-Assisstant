@@ -1,0 +1,59 @@
+{% extends "app_base.html" %}
+{% block title %}New study set — Margin{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1 class="page-title">Transcribe a video</h1>
+    <p class="page-sub">Upload a video to extract its audio and create a timestamped transcript.</p>
+  </div>
+</div>
+
+<div class="create-grid">
+  <form id="createForm" novalidate>
+    <div class="form-error" id="formError" role="alert" hidden></div>
+
+    <div id="filePane">
+      <div class="dropzone" id="dropzone">
+        <strong id="dropTitle">Drop your video here</strong>
+        <p id="dropHint">MP4, MKV, AVI, MOV or WebM, up to 2 GB</p>
+        <button class="btn" type="button" id="browse">Choose a file</button>
+        <input id="file" name="file" type="file" accept=".mp4,.mkv,.avi,.mov,.webm" hidden>
+        <div class="file-chosen" id="fileChosen" hidden>
+          <span class="kind" id="fileIcon"></span>
+          <div><strong id="fileName"></strong><small id="fileSize"></small></div>
+          <button class="icon-btn" type="button" id="clearFile" aria-label="Remove file">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="title">Title <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+      <input class="input" id="title" name="title" type="text" maxlength="120" placeholder="Taken from the file name if left empty">
+    </div>
+
+    <div id="uploading" hidden>
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="bar"></i></div>
+      <p class="hint" id="uploadText" aria-live="polite">Uploading…</p>
+    </div>
+
+    <button class="btn primary large" type="submit" id="submitBtn">Upload and transcribe</button>
+    <section id="transcriptResult" hidden>
+      <h2>Transcript</h2>
+      <pre id="transcriptText"></pre>
+    </section>
+  </form>
+
+  <aside class="aside-note">
+    <h3>Processing</h3>
+    <ul>
+      <li>The video is validated and saved.</li>
+      <li>FFmpeg extracts mono audio for transcription.</li>
+      <li>The timestamped transcript is shown here when ready.</li>
+    </ul>
+    <p class="hint" style="margin-top:12px;font-size:13px;color:var(--muted)">Keep this page open while the upload and transcription run.</p>
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='js/new.js') }}"></script>{% endblock %}

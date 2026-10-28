@@ -1,0 +1,24 @@
+{% extends "auth_base.html" %}
+{% block title %}Log in — Margin{% endblock %}
+{% block auth_card %}
+<h1>Welcome back</h1>
+<p class="sub">Log in to open your study sets.</p>
+<form id="authForm" data-mode="login" novalidate>
+  <div class="form-error" id="formError" role="alert" hidden></div>
+  <div class="field">
+    <label for="email">Email</label>
+    <input class="input" id="email" name="email" type="email" autocomplete="email" required>
+    <span class="field-error" data-error-for="email"></span>
+  </div>
+  <div class="field">
+    <label for="password">Password</label>
+    <div class="input-wrap">
+      <input class="input" id="password" name="password" type="password" autocomplete="current-password" required>
+      <button class="reveal" type="button" data-reveal="password" aria-label="Show password">Show</button>
+    </div>
+    <span class="field-error" data-error-for="password"></span>
+  </div>
+  <button class="btn primary large full" type="submit" id="submitBtn">Log in</button>
+</form>
+<p class="auth-switch">New to Margin? <a href="/signup" data-keep-next>Create an account</a></p>
+{% endblock %}

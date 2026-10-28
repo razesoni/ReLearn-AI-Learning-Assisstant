@@ -1,0 +1,43 @@
+{% extends "app_base.html" %}
+{% block title %}Dashboard — Margin{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1 class="page-title" id="greeting">Hello</h1>
+    <p class="page-sub">Pick up where you left off, or add something new to study.</p>
+  </div>
+</div>
+
+<div class="start-grid" aria-label="Make a study set from">
+  <a class="start-link" href="/new?kind=video"><span class="kind" id="ico-video"></span><span><strong>Upload a video</strong><small>MP4, MKV, AVI, MOV, WebM</small></span></a>
+  <a class="start-link" href="/new?kind=pdf"><span class="kind" id="ico-pdf"></span><span><strong>Upload a PDF</strong><small>Chapters, slides, papers</small></span></a>
+  <a class="start-link" href="/new?kind=youtube"><span class="kind" id="ico-youtube"></span><span><strong>Paste a YouTube link</strong><small>Any public video</small></span></a>
+</div>
+
+<div class="dash-cols">
+  <section>
+    <div class="page-head" style="margin-bottom:14px">
+      <h2 class="section-title" style="margin:0">Recent study sets</h2>
+      <a class="btn quiet small" href="/library">See all</a>
+    </div>
+    <div class="rows" id="recent" aria-live="polite">
+      <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+  </section>
+
+  <aside class="log" aria-label="Study log">
+    <h2>Study log</h2>
+    <div class="log-stats">
+      <div class="log-stat"><strong data-stat="sets">–</strong><span>Study sets</span></div>
+      <div class="log-stat"><strong data-stat="terms">–</strong><span>Terms to learn</span></div>
+      <div class="log-stat"><strong data-stat="quizzes_taken">–</strong><span>Quizzes taken</span></div>
+      <div class="log-stat"><strong data-stat="avg_score">–</strong><span>Average score</span></div>
+    </div>
+    <div class="scores">
+      <h3>Latest quiz scores</h3>
+      <div id="scoreBars"></div>
+    </div>
+  </aside>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='js/dashboard.js') }}"></script>{% endblock %}

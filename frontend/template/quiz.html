@@ -1,0 +1,10 @@
+{% extends "app_base.html" %}
+{% block title %}Practice quiz — Margin{% endblock %}
+{% block content %}
+<a class="back" id="backLink" href="/library">
+  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true"><path d="m14 6-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Back to study set
+</a>
+<div class="quiz" id="quizRoot" aria-live="polite"><div class="skeleton" style="border-radius:12px;height:160px"></div></div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', path='js/quiz.js') }}"></script>{% endblock %}

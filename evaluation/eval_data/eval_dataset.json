@@ -1,0 +1,66 @@
+[
+  {
+    "id": "Q001",
+    "question": "What is an agentic AI system, and how does it differ from a traditional single-pass LLM application?",
+    "ground_truth": "An agentic AI system can reason over a task, choose actions or tools, observe their results, and continue through an iterative process. A traditional single-pass LLM application generally maps an input prompt to one model response without an explicit action-observation loop.",
+    "category": "answerable",
+    "expected_behavior": "conceptual",
+    "source_document": "Agentic_AI_with_LangGraph_Handwritten_Style_Notes.pdf"
+  },
+  {
+    "id": "Q002",
+    "question": "What are the main building blocks of a LangGraph workflow?",
+    "ground_truth": "A LangGraph workflow is commonly represented using state, nodes, edges, and conditional routing. State stores workflow data, nodes perform work, edges define transitions, and conditional edges choose the next path based on the current state.",
+    "category": "answerable",
+    "expected_behavior": "conceptual",
+    "source_document": "Agentic_AI_with_LangGraph_Handwritten_Style_Notes.pdf"
+  },
+  {
+    "id": "Q003",
+    "question": "What is the role of state in LangGraph?",
+    "ground_truth": "State is the shared data structure passed through a graph. Nodes read from it and return updates to it, allowing information such as the user query, retrieved documents, intermediate results, and final answer to persist across workflow steps.",
+    "category": "answerable",
+    "expected_behavior": "conceptual",
+    "source_document": "Agentic_AI_with_LangGraph_Handwritten_Style_Notes.pdf"
+  },
+  {
+    "id": "Q004",
+    "question": "How do conditional edges help an agentic workflow?",
+    "ground_truth": "Conditional edges select the next node based on the current state or a routing function's result. They allow a graph to branch\u2014for example, sending a query to retrieval, rewriting, or another path depending on the workflow's decision.",
+    "category": "answerable",
+    "expected_behavior": "conceptual",
+    "source_document": "Agentic_AI_with_LangGraph_Handwritten_Style_Notes.pdf"
+  },
+  {
+    "id": "Q005",
+    "question": "Why might a LangGraph application use a checkpointer?",
+    "ground_truth": "A checkpointer persists graph state at execution checkpoints. This can support resuming interrupted workflows and maintaining state across turns, depending on the configured persistence backend and thread identifier.",
+    "category": "answerable",
+    "expected_behavior": "application",
+    "source_document": "Agentic_AI_with_LangGraph_Handwritten_Style_Notes.pdf"
+  },
+  {
+    "id": "Q006",
+    "question": "What is the difference between a node and an edge in LangGraph?",
+    "ground_truth": "A node is a unit of work, such as calling a model, retrieving documents, or validating an answer. An edge defines the transition from one node to another; a conditional edge chooses among possible destinations.",
+    "category": "answerable",
+    "expected_behavior": "conceptual",
+    "source_document": "Agentic_AI_with_LangGraph_Handwritten_Style_Notes.pdf"
+  },
+  {
+    "id": "Q007",
+    "question": "Why should an agent verify a tool result before using it in its final answer?",
+    "ground_truth": "Verification helps detect irrelevant, incomplete, or incorrect tool output before it is presented as a fact. The workflow can then retry, revise the query, choose another tool, or qualify the final response.",
+    "category": "answerable",
+    "expected_behavior": "application",
+    "source_document": "Agentic_AI_with_LangGraph_Handwritten_Style_Notes.pdf"
+  },
+  {
+    "id": "Q036",
+    "question": "According to the supplied notes, what exact benchmark score does LangGraph achieve over CrewAI on the AgentBench leaderboard?",
+    "ground_truth": "The supplied PDFs do not provide an AgentBench leaderboard comparison or a benchmark score for LangGraph versus CrewAI. The system should say this information is not available in the provided sources rather than inventing a number.",
+    "category": "unsupported_false_premise",
+    "expected_behavior": "unanswerable",
+    "source_document": "Agentic_AI_with_LangGraph_Handwritten_Style_Notes.pdf"
+  }
+]

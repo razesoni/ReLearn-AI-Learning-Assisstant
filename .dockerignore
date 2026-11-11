@@ -1,0 +1,27 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.env
+.git
+.gitignore
+.github
+.idea
+.vscode
+
+# Ignore local evaluation databases and runs
+evaluation/
+eval_data/
+results/
+eval_data.zip
+*.db-shm
+*.db-wal
+
+# Keep state if needed, or recreate in container
+.pytest_cache/
+.coverage
+htmlcov/

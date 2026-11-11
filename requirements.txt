@@ -9,6 +9,8 @@ jinja2
 
 langgraph
 langchain-google-genai
+langchain-community>=0.3.31,<0.4
+ragas>=0.4.3,<0.5
 python-dotenv
 duckduckgo-search
 langgraph-checkpoint-sqlite

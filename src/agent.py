@@ -1,46 +1,93 @@
-from langchain_core.prompts import ChatPromptTemplate
-from langchain_google_genai import ChatGoogleGenerativeAI
-from src.ingestion import _get_vector_store
+import sqlite3
+import logging
+from typing import Any
 
-from config.settings import settings
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.sqlite import SqliteSaver
+from langchain_core.runnables import RunnableConfig
 
-
-SYSTEM_PROMPT = """You are an expert teaching assistant.
-Use the following information to answer the question:
-- {context}
-
-If the answer is not in the context, say "I don't know".
-Answer in the same language as the question.
-Keep the answer concise and to the point.
-If the question is a greeting, respond politely."""
-
-prompt = ChatPromptTemplate.from_messages(
-    [
-        ("system", SYSTEM_PROMPT),
-        ("user", "{question}"),
-    ]
+from config.settings import BASE_DIR
+from src.guardrails import (
+    LearningGraphState,
+    check_query_guardrails,
+    route_after_guardrail,
+)
+from src.nodes import (
+    out_of_bounds_node,
+    retrieval_node,
+    crag_evaluator_node,
+    route_after_evaluation,
+    web_search_node,
+    generator_node,
 )
 
+logger = logging.getLogger(__name__)
 
-def create_agent():
-    llm = ChatGoogleGenerativeAI(
-        model=settings.GEMINI_MODEL,
-        google_api_key=settings.GEMINI_API_KEY or None,
-    )
-    return llm
+builder = StateGraph(LearningGraphState)
+
+builder.add_node("guardrail", check_query_guardrails)
+builder.add_node("retrieve", retrieval_node)
+builder.add_node("evaluate", crag_evaluator_node)
+builder.add_node("out_of_bounds_node", out_of_bounds_node)
+builder.add_node("web_search", web_search_node)
+builder.add_node("generate", generator_node)
+
+builder.add_edge(START, "guardrail")
+builder.add_conditional_edges(
+    "guardrail",
+    route_after_guardrail,
+    {
+        "retrieve": "retrieve",
+        "end_flow": END,
+    },
+)
+builder.add_edge("retrieve", "evaluate")
+builder.add_conditional_edges(
+    "evaluate",
+    route_after_evaluation,
+    {
+        "out_of_bounds_node": "out_of_bounds_node",
+        "web_search_node": "web_search",
+        "generator_node": "generate",
+    },
+)
+builder.add_edge("out_of_bounds_node", END)
+builder.add_edge("web_search", "generate")
+builder.add_edge("generate", END)
+
+DB_PATH = BASE_DIR / "learning_platform_state.db"
+_sqlite_conn = sqlite3.connect(str(DB_PATH), check_same_thread=False)
+memory = SqliteSaver(_sqlite_conn)
+memory.setup()
+
+agent_graph = builder.compile(checkpointer=memory)
 
 
-def rag_chat(query: str) -> str:
-    if not query.strip():
-        raise ValueError("The question cannot be empty.")
+def run_agent(query: str, session_id: str = "default_session") -> dict[str, Any]:
+    """
+    Executes the compiled LangGraph workflow with session checkpointing.
+    Returns the final state containing summary, learning_goals, and retrieved context.
+    """
+    normalized_query = query.strip()
+    normalized_session_id = session_id.strip()
+    if not normalized_query:
+        raise ValueError("The study query cannot be empty.")
+    if not normalized_session_id:
+        raise ValueError("The session ID cannot be empty.")
 
-    documents = _get_vector_store().similarity_search(query, k=5)
-    context = "\n\n".join(document.page_content for document in documents)
-    response = (prompt | create_agent()).invoke(
-        {"context": context or "No relevant documents have been uploaded.", "question": query}
-    )
-    return response.content if isinstance(response.content, str) else str(response.content)
+    initial_state: LearningGraphState = {
+        "session_id": normalized_session_id,
+        "user_query": normalized_query,
+        "retrieved_context": [],
+        "evaluation_status": "pending",
+        "summary": "",
+        "learning_goals": [],
+        "messages": [],
+    }
 
-
-if __name__ == "__main__":
-    print(rag_chat("Tell me about yourself"))
+    config: RunnableConfig = {"configurable": {"thread_id": normalized_session_id}}
+    try:
+        return agent_graph.invoke(initial_state, config=config)
+    except Exception:
+        logger.exception("Agent workflow failed for session %s.", normalized_session_id)
+        raise
